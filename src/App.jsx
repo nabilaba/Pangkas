@@ -65,8 +65,7 @@ function App() {
             <Stack spacing={4}>
               {links.map((link, index) => (
                 <HStack key={index}>
-                  <Text>{link.original_link}</Text>
-                  <Text>{link.short_link}</Text>
+                  <Text>{link.original_link} - {link.short_link}</Text>
                 </HStack>
               ))}
             </Stack>
