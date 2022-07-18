@@ -20,33 +20,21 @@ function App() {
   const [links, setLinks] = useState([]);
 
   useEffect(() => {
-    axios
-      .get(`${URL.BASE_URL}${URL.SITES}`)
-      .then((res) => {
-        setLinks(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    const response = axios.get(`${URL.BASE_URL}${URL.SITES}`);
+    setLinks(response.data);
   }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post(`${URL.BASE_URL}${URL.SITES}`, {
-      id: Date.now(),
-      original_link: newLink,
-      short_link: randomString(6),
-    });
-    setNewLink("");
-
-    axios
-      .get(`${URL.BASE_URL}${URL.SITES}`)
-      .then((res) => {
-        setLinks(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    const response = axios.post(
+      `${URL.BASE_URL}${URL.SITES}`,
+      {
+        id: Date.now(),
+        original_link: newLink,
+        short_link: randomString(),
+      }
+    );
+    setLinks([...links, response.data]);
   };
   return (
     <Stack align="center" minH="100vh" h="full" justify={"center"}>
