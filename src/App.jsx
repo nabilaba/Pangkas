@@ -38,6 +38,15 @@ function App() {
       short_link: randomString(6),
     });
     setNewLink("");
+
+    axios
+      .get(`${URL.BASE_URL}${URL.SITES}`)
+      .then((res) => {
+        setLinks(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   return (
     <Stack align="center" minH="100vh" h="full" justify={"center"}>
@@ -60,12 +69,13 @@ function App() {
           <Button type="submit">Shorten</Button>
         </Stack>
         {links.length > 0 && (
-          <Box>
-            <Heading>Links</Heading>
+          <Box mt={3}>
             <Stack spacing={4}>
               {links.map((link, index) => (
                 <HStack key={index}>
-                  <Text>{link.original_link} - {link.short_link}</Text>
+                  <Text>
+                    {link.original_link} - {link.short_link}
+                  </Text>
                 </HStack>
               ))}
             </Stack>
