@@ -1,0 +1,26 @@
+name: Sync Database
+
+on:
+  schedule:
+    - cron: "0 * * * *"
+  workflow_dispatch:
+    
+jobs:
+  schedule_commit:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      
+      - name: Download file json from heroku
+        run: curl https://pangkas.herokuapp.com/db -o database/pangkas-database.json
+        
+      - name: Commiting
+        run: |
+          git pull
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          git add -A
+          git diff-index --quiet HEAD || git commit --author="nabilaba <nabilazizbimaanggita@gmail.com>" -m "chore: sync"
+          git push
